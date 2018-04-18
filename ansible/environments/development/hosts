@@ -1,0 +1,4 @@
+# Define all hosts in instance here:
+[all]
+#server.local ansible_ssh_host=10.40.0.10
+server.local ansible_connection=local

@@ -1,0 +1,30 @@
+---
+- hosts: server.local
+
+  vars:
+      color: red
+      # this is an example of using a lookup to get an environment variable
+      # other options are: file, password, pipe, template, csvfile, dnstxt, redis_kv, etcd
+      #outputdir: "{{ lookup('env', 'TEMP') }}/deploy_location"
+      software_base: "{{ lookup('env', 'HOME') }}/software"
+      data_base_dir: "{{ lookup('env', 'HOME') }}/data"
+
+  pre_tasks:
+  #- name: Create deploy location  
+  # creates the directory where roles will write their files
+  #file: path={{ outputdir }} state=directory
+   - name: dump vars
+     action: template src=templates/dumpall.j2 dest=/tmp/ansible.all
+
+  become: yes
+
+  roles:
+   - role: common
+   - role: virtualenv
+
+  tasks:
+    - name: task 1
+      action: shell echo {{ color }}
+    - name: task  2
+      action: shell echo "task 2 ran"
+

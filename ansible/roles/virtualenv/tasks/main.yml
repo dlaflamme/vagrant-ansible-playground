@@ -1,0 +1,73 @@
+---
+
+- name: Install dependencies 
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-devel
+    - python2-pip
+    - python-virtualenv
+
+- name: Ensure a 'wheel' group exists
+  group:
+    name: wheel
+    state: present
+
+- name: Allow 'wheel' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+    validate: visudo -cf %s
+
+- name: Ensure joe user exists
+  user:
+    name: joe
+    comment: "Joe User"
+    home: /usr/lib/Joe
+    shell: /bin/bash
+    groups: wheel
+    append: yes
+
+- name: Ensure joe directories exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: joe
+  with_items:
+    - /usr/lib/joe
+    - /usr/lib/joe/default
+    - /etc/joe
+    - /etc/joe/default
+
+- name: Upgrade pip
+  shell: |
+    pip install --upgrade pip
+    exit 0
+  args:
+
+- name: Create virtualenv
+  become_user: joe
+  shell: |
+    /usr/bin/pip install --upgrade pip
+    /usr/bin/virtualenv --no-site-packages default
+    . /usr/lib/joe/default/bin/activate
+    /usr/bin/pip install -U setuptools
+    exit 0
+  args:
+    executable: /bin/bash
+    creates: /usr/lib/joe/default/bin/activate
+
+- name: Install something in virtualenv
+  become_user: joe 
+  shell: |
+    . /usr/lib/joe/default/bin/activate
+    /usr/bin/pip install PasteScript
+    exit 0
+  args:
+    executable: /bin/bash
+    creates: /usr/lib/joe/default/bin/paster
+  register: paster_installed

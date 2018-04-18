@@ -1,0 +1,8 @@
+---
+
+server_fqdn: server.local                      # server fully qualified domain name (FQDN)
+environment: development                       # environment: development, testing, acceptance or production
+ckan_database_password: abc123                 # CKAN Postgresql database password
+ckan_admin_password: def456                    # CKAN admin user ('ckanadmin') password
+ckan_harvest_password: ghi789                  # CKAN harvest user ('harvest') password
+
