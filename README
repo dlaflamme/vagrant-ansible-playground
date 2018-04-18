@@ -4,7 +4,29 @@ Playground for experimenting with ansible provisioning in vagrant.
 TODO:
   *
 
+
 Problem
+
+This task (in ansible/roles/virtualenv/tasks/main.yml)
+
+```yaml
+- name: Create virtualenv
+  become_user: joe
+  shell: |
+    /usr/bin/pip install --upgrade pip
+    /usr/bin/virtualenv --no-site-packages default
+    . /usr/lib/joe/default/bin/activate
+    /usr/bin/pip install -U setuptools
+    exit 0
+  args:
+    executable: /bin/bash
+    creates: /usr/lib/joe/default/bin/activate
+```
+
+
+
+results in this:
+
 
 ```
 TASK [virtualenv : Create virtualenv] ******************************************
