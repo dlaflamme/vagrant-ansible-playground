@@ -3,3 +3,71 @@ Playground for experimenting with ansible provisioning in vagrant.
 
 TODO:
   *
+
+Problem
+
+```
+TASK [virtualenv : Create virtualenv] ******************************************
+task path: /vagrant/ansible/roles/virtualenv/tasks/main.yml:52
+Using module file /usr/lib/python2.7/site-packages/ansible/modules/commands/command.py
+<server.local> ESTABLISH LOCAL CONNECTION FOR USER: vagrant
+<server.local> EXEC /bin/sh -c 'echo ~ && sleep 0'
+<server.local> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /var/tmp/ansible-tmp-1524052767.76-142815463959297 `" && echo ansible-tmp-1524052767.76-142815463959297="` echo /var/tmp/ansible-tmp-1524052767.76-142815463959297 `" ) && sleep 0'
+<server.local> PUT /home/vagrant/.ansible/tmp/ansible-local-26306Ym1BcZ/tmpsW4kyE TO /var/tmp/ansible-tmp-1524052767.76-142815463959297/command.py
+<server.local> EXEC /bin/sh -c 'setfacl -m u:joe:r-x /var/tmp/ansible-tmp-1524052767.76-142815463959297/ /var/tmp/ansible-tmp-1524052767.76-142815463959297/command.py && sleep 0'
+<server.local> EXEC /bin/sh -c 'sudo -H -S -n -u joe /bin/sh -c '"'"'echo BECOME-SUCCESS-igfwtvjjjsmytuzbvtykdqyvrivfdafj; /usr/bin/python /var/tmp/ansible-tmp-1524052767.76-142815463959297/command.py'"'"' && sleep 0'
+<server.local> EXEC /bin/sh -c 'rm -f -r /var/tmp/ansible-tmp-1524052767.76-142815463959297/ > /dev/null 2>&1 && sleep 0'
+changed: [server.local] => {
+    "changed": true,
+    "cmd": "pip install --upgrade pip\n virtualenv --no-site-packages default\n source /usr/lib/joe/default/bin/activate\n pip install -U setuptools\n exit 0",
+    "delta": "0:00:11.501964",
+    "end": "2018-04-18 11:59:39.891540",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "pip install --upgrade pip\n virtualenv --no-site-packages default\n source /usr/lib/joe/default/bin/activate\n pip install -U setuptools\n exit 0",
+            "_uses_shell": true,
+            "chdir": null,
+            "creates": "/usr/lib/joe/default/bin/activate",
+            "executable": "/bin/bash",
+            "removes": null,
+            "stdin": null,
+            "warn": true
+        }
+    },
+    "rc": 0,
+    "start": "2018-04-18 11:59:28.389576",
+    "stderr": "Traceback (most recent call last):\n  File \"/bin/virtualenv\", line 3, in <module>\n    virtualenv.main()\n  File \"/usr/lib/python2.7/site-packages/virtualenv.py\", line 827, in main\n    symlink=options.symlink)\n  File \"/usr/lib/python2.7/site-packages/virtualenv.py\", line 962, in create_environment\n    site_packages=site_packages, clear=clear, symlink=symlink))\n  File \"/usr/lib/python2.7/site-packages/virtualenv.py\", line 1135, in install_python\n    mkdir(lib_dir)\n  File \"/usr/lib/python2.7/site-packages/virtualenv.py\", line 443, in mkdir\n    os.makedirs(path)\n  File \"/usr/lib64/python2.7/os.py\", line 150, in makedirs\n    makedirs(head, mode)\n  File \"/usr/lib64/python2.7/os.py\", line 150, in makedirs\n    makedirs(head, mode)\n  File \"/usr/lib64/python2.7/os.py\", line 157, in makedirs\n    mkdir(name, mode)\nOSError: [Errno 13] Permission denied: 'default'\n/bin/bash: line 2: /usr/lib/joe/default/bin/activate: No such file or directory",
+    "stderr_lines": [
+        "Traceback (most recent call last):",
+        "  File \"/bin/virtualenv\", line 3, in <module>",
+        "    virtualenv.main()",
+        "  File \"/usr/lib/python2.7/site-packages/virtualenv.py\", line 827, in main",
+        "    symlink=options.symlink)",
+        "  File \"/usr/lib/python2.7/site-packages/virtualenv.py\", line 962, in create_environment",
+        "    site_packages=site_packages, clear=clear, symlink=symlink))",
+        "  File \"/usr/lib/python2.7/site-packages/virtualenv.py\", line 1135, in install_python",
+        "    mkdir(lib_dir)",
+        "  File \"/usr/lib/python2.7/site-packages/virtualenv.py\", line 443, in mkdir",
+        "    os.makedirs(path)",
+        "  File \"/usr/lib64/python2.7/os.py\", line 150, in makedirs",
+        "    makedirs(head, mode)",
+        "  File \"/usr/lib64/python2.7/os.py\", line 150, in makedirs",
+        "    makedirs(head, mode)",
+        "  File \"/usr/lib64/python2.7/os.py\", line 157, in makedirs",
+        "    mkdir(name, mode)",
+        "OSError: [Errno 13] Permission denied: 'default'",
+        "/bin/bash: line 2: /usr/lib/joe/default/bin/activate: No such file or directory"
+    ],
+    "stdout": "Requirement already up-to-date: pip in /usr/lib/python2.7/site-packages (10.0.0)\nCollecting setuptools\n  Downloading https://files.pythonhosted.org/packages/20/d7/04a0b689d3035143e2ff288f4b9ee4bf6ed80585cc121c90bfd85a1a8c2e/setuptools-39.0.1-py2.py3-none-any.whl (569kB)\nInstalling collected packages: setuptools\n  Found existing installation: setuptools 0.9.8\n    Uninstalling setuptools-0.9.8:",
+    "stdout_lines": [
+        "Requirement already up-to-date: pip in /usr/lib/python2.7/site-packages (10.0.0)",
+        "Collecting setuptools",
+        "  Downloading https://files.pythonhosted.org/packages/20/d7/04a0b689d3035143e2ff288f4b9ee4bf6ed80585cc121c90bfd85a1a8c2e/setuptools-39.0.1-py2.py3-none-any.whl (569kB)",
+        "Installing collected packages: setuptools",
+        "  Found existing installation: setuptools 0.9.8",
+        "    Uninstalling setuptools-0.9.8:"
+    ]
+}
+
+```
+
